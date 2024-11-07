@@ -16,7 +16,6 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
   void initState() {
     super.initState();
 
-    // Fetch the selected exercise details by ID
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final exerciseProvider = Provider.of<ExerciseProvider>(context, listen: false);
       exerciseProvider.fetchExerciseById(widget.exerciseId);
@@ -46,7 +45,7 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
             // Display the exercise GIF
             Container(
               width: double.infinity,
-              height: 360,
+              height: MediaQuery.of(context).size.height * 0.4,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(exercise.gifUrl),
@@ -83,26 +82,34 @@ class _ExerciseDetailPageState extends State<ExerciseDetailPage> {
             ),
             SizedBox(height: 8),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04,
+              ),
               child: ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: exercise.instructions.length,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.01,
+                    ),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Icon(
                           Icons.arrow_right,
                           color: Colors.blueAccent,
+                          size: MediaQuery.of(context).size.width * 0.06,
                         ),
-                        SizedBox(width: 8),
+                        SizedBox(width: MediaQuery.of(context).size.width * 0.02),
                         Expanded(
                           child: Text(
                             exercise.instructions[index],
-                            style: TextStyle(fontSize: 16, color: Colors.white70),
+                            style: TextStyle(
+                              fontSize: MediaQuery.of(context).size.width * 0.04,
+                              color: Colors.white70,
+                            ),
                           ),
                         ),
                       ],

@@ -16,7 +16,7 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
   @override
   void initState() {
     super.initState();
-    // Fetch exercises based on the selected body part
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final exerciseProvider = Provider.of<ExerciseProvider>(context, listen: false);
       exerciseProvider.fetchExercisesByBodyPart(widget.bodyPart);
@@ -45,46 +45,48 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
           : exerciseProvider.exerciseErrorMessage != null
           ? Center(child: Text('Error: ${exerciseProvider.exerciseErrorMessage}'))
           : ListView.builder(
-        padding: EdgeInsets.all(12), // Padding around the entire list
+        padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.03),
         itemCount: exerciseProvider.exercises.length,
         itemBuilder: (context, index) {
           final exercise = exerciseProvider.exercises[index];
+          final screenWidth = MediaQuery.of(context).size.width;
+
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8), // More space between items
+            padding: EdgeInsets.symmetric(vertical: screenWidth * 0.02),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(screenWidth * 0.03),
                 border: Border.all(color: Colors.white70, width: 1),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.white.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 10,
-                    offset: Offset(0, 3), // Shadow position
+                    color: Colors.black.withOpacity(0.1),
+                    spreadRadius: screenWidth * 0.003,
+                    blurRadius: screenWidth * 0.02,
+                    offset: Offset(0, screenWidth * 0.01),
                   ),
                 ],
               ),
               child: ListTile(
-                contentPadding: EdgeInsets.all(16), // Increase padding inside ListTile
+                contentPadding: EdgeInsets.all(screenWidth * 0.04),
                 leading: ClipRRect(
-                  borderRadius: BorderRadius.circular(8), // Rounded corners for image
+                  borderRadius: BorderRadius.circular(screenWidth * 0.02),
                   child: Image.network(
                     exercise.gifUrl,
-                    width: 60, // Increased image width
-                    height: 60, // Increased image height
+                    width: screenWidth * 0.15,
+                    height: screenWidth * 0.15,
                     fit: BoxFit.cover,
                   ),
                 ),
                 title: Text(
                   exercise.name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: screenWidth * 0.045),
                 ),
                 subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
+                  padding: EdgeInsets.only(top: screenWidth * 0.01),
                   child: Text(
                     'Equipment Needed: ${exercise.equipment}',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: screenWidth * 0.035),
                   ),
                 ),
                 trailing: ElevatedButton(
@@ -97,23 +99,30 @@ class _ExerciseListPageState extends State<ExerciseListPage> {
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red, // Button background color
+                    backgroundColor: Colors.red,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12), // Rounded corners
+                      borderRadius: BorderRadius.circular(screenWidth * 0.03),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                    elevation: 0, // No shadow or elevation
+                    padding: EdgeInsets.symmetric(
+                      vertical: screenWidth * 0.02,
+                      horizontal: screenWidth * 0.04,
+                    ),
+                    elevation: 0,
                   ),
                   child: Text(
                     'Start',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: screenWidth * 0.04,
+                    ),
                   ),
                 ),
               ),
             ),
           );
         },
-      ),
+      )
     );
   }
 }
